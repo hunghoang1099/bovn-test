@@ -1,7 +1,7 @@
 'use strict';
-const user = require('../user.model');
+const userModel = require('../user.model');
 const findAllUsers = async ({ query, limit, skip }) => {
-  return await user
+  return await userModel
     .find(query)
     .sort({ updateAt: -1 })
     .skip(skip)
@@ -9,16 +9,31 @@ const findAllUsers = async ({ query, limit, skip }) => {
     .exec();
 };
 
-const createUser = async (payload) => {
-  const user = new userModel(payload);
-  return await user.save();
-};
-
 const findUserByEmail = async (email) => {
-  return await user.findOne({ email }).lean();
+  return await userModel.findOne({ email }).lean();
 };
 
 const findUserById = async (id) => {
-  return await user.findById(id).lean();
+  return await userModel.findById(id).lean();
 };
-module.exports = { findAllUsers, findUserByEmail, findUserById };
+
+const findUserByIdAndUpdate = async ({ user_id, payload, isNew = true }) => {
+  const result = await userModel.findByIdAndUpdate(user_id, payload, {
+    new: isNew,
+  });
+
+  return result;
+};
+
+const findUserByIdAndDelete = async ({ user_id }) => {
+  const result = await userModel.findByIdAndDelete(user_id);
+
+  return result;
+};
+module.exports = {
+  findAllUsers,
+  findUserByEmail,
+  findUserById,
+  findUserByIdAndUpdate,
+  findUserByIdAndDelete,
+};

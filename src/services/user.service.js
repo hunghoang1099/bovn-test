@@ -2,16 +2,15 @@
 const userModel = require('../models/user.model');
 const { pickDataField } = require('../utils/index');
 const {
-  InternalServerErrorRequestResponse,
   BadRequestRequestErrorResponse,
-  ForbiddenRequestErrorResponse,
-  UnauthorizedRequestErrorResponse,
   NotFoundRequestErrorResponse,
 } = require('../core/error.response');
 const {
   findAllUsers,
   findUserByEmail,
   findUserById,
+  findUserByIdAndUpdate,
+  findUserByIdAndDelete,
 } = require('../models/repositories/user.repo');
 
 class UserService {
@@ -34,10 +33,16 @@ class UserService {
 
   updateUser = async ({ id, payload }) => {
     const foundUser = await findUserById(id);
-    if (!foundUser)
-      throw new BadRequestRequestErrorResponse(`User not exists)`);
+    if (!foundUser) throw new NotFoundRequestErrorResponse(`User not exists)`);
 
-    await foundShop.updateOne(foundShop);
+    return await findUserByIdAndUpdate({ user_id: id, payload, isNew: false });
+  };
+
+  deleteUser = async ({ id }) => {
+    const foundUser = await findUserById(id);
+    if (!foundUser) throw new NotFoundRequestErrorResponse(`User not exists)`);
+
+    return await findUserByIdAndDelete({ user_id: id, payload, isNew: false });
   };
 }
 
