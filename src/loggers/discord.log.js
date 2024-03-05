@@ -56,6 +56,6 @@ class DiscordServiceLogger {
   }
 }
 
-// const discordServiceLogger = new DiscordServiceLogger();
+const discordServiceLogger = new DiscordServiceLogger();
 
-// module.exports = discordServiceLogger;
+module.exports = discordServiceLogger;

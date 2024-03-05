@@ -42,7 +42,7 @@ class UserService {
     const foundUser = await findUserById(id);
     if (!foundUser) throw new NotFoundRequestErrorResponse(`User not exists)`);
 
-    return await findUserByIdAndDelete({ user_id: id, payload, isNew: false });
+    return await findUserByIdAndDelete({ user_id: id });
   };
 }
 
